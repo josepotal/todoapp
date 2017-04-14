@@ -1,0 +1,39 @@
+.task-create {
+  background: white;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 2px;
+  border: 2px solid black;
+}
+
+/*input
+    width 100%
+    &[type="text"]
+      text-align center
+      font-size 3rem
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+*/
