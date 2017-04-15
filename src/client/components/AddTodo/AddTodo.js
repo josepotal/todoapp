@@ -4,17 +4,18 @@ import './AddTodo.css';
 class AddTodo extends Component {
   constructor(props) {
       super(props);
-      this.createTodo = this.createTodo.bind(this);
+      //this.createTodo = this.createTodo.bind(this);
     }
-  createTodo(event) {
-    event.preventDefault()
-    var todo = {
-      id: Date.now(),
-      name: this.refs.name.value
-    }
-    this.props.addTodo(todo)
-    this.refs.taskForm.reset()
-  }
+  // createTodo(event) {
+  //   event.preventDefault()
+  //   var todo = {
+  //     id: Date.now(),
+  //     name: this.refs.name.value,
+  //     complete: false,
+  //   }
+  //   this.props.addTodo(todo)
+  //   this.refs.taskForm.reset()
+  // }
   render() {
     return (
       <form className="task-create" ref="taskForm" onSubmit={this.createTodo}>

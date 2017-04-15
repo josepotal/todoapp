@@ -5,16 +5,15 @@ import _ from 'lodash';
 
 class Todo extends Component {
   constructor(props) {
-    super(props)
+    super()
   }
   
   render() {
-    const { id, mame } = this.props;
-    console.log(this.props)
+    const { id, name } = this.props;
     return (
       <li>
         <p>{id}</p>
-        <span>{name}</span>
+        <p>{name}</p>
       </li>
     );
   }

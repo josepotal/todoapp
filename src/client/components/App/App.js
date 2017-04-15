@@ -2,49 +2,58 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import './App.css';
 
-import AddTodo from '../AddTodo/AddTodo'
+//import AddTodo from '../AddTodo/AddTodo'
+import * as TodoActions from '../../actions/TodoActions'
 import Todo from '../Todo/Todo'
+import TodoStore from '../../stores/TodoStore'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todos: [] //{}
+      todos: TodoStore.getAll() //{}
     }
 
-    this.addTodo = this.addTodo.bind(this);
-    
+    this.createTodo = this.createTodo.bind(this);   
   }
 
-  addTodo(todo) {
-    console.log(todo)
-    console.log(this.state)
-    //var timestamp = (new Date()).getTime();
-    
-    // //Using objects
-    // this.setState({
-    //   todos: _.extend(this.state.todos, {[`todo-${timestamp}`]: todo.name})
-    // })
-    //Using arrays
-    this.setState({
-      todos: this.state.todos.concat(todo)
+  /*first time to DOM it renders the component
+  At any change in store the state will update*/
+  componentWillMount() {
+    TodoStore.on("change", () => {
+      this.setState({
+        todos: TodoStore.getAll()
+      })
     })
   }
 
+  createTodo(event) {
+    event.preventDefault()
+    var todo = {
+      id: Date.now(),
+      name : this.refs.name.value
+    }
+    console.log(todo.name)
+    TodoActions.createTodo(todo.name)
+    this.refs.todoForm.reset();
+  }
 
   render() {
     const { todos } = this.state;
-
     const TodoComponents = todos.map((todo) => {
         return <Todo key={todo.id} {...todo} />;
     });
+
     return (
       <div className="App">
         <div className="App-header">
           <h2>Welcome to React</h2>
         </div>
-        <AddTodo addTodo={this.addTodo} />
-
+        <form className="task-create" ref="todoForm" onSubmit={this.createTodo}>
+        <input type="text" ref="name" placeholder="Task Name"/>
+        <button type="submit">+ Add Task </button>
+      </form>
+        {/*<AddTodo createTodo={this.createTodo} />*/}
         <ul>
           {TodoComponents}
         </ul>
