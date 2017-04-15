@@ -1,10 +1,9 @@
+
 import React, { Component } from 'react';
 import _ from 'lodash';
 import './App.css';
 
-//Firebase
-import firebase from 'firebase';
-
+import firebase from 'firebase'
 
 import AddTodo from '../AddTodo/AddTodo'
 //import * as TodoActions from '../../actions/TodoActions'
@@ -45,8 +44,9 @@ class App extends Component {
   }
   render() {
     const { todos } = this.state;
-    const TodoComponents = todos.map((todo) => {
-        return <Todo key={todo.id} {...todo} />;
+    console.log(Object.keys(todos))
+    const TodoComponents = Object.values(todos).map((todo) => {
+        return <Todo key={todo.id} {...todo} />; 
     });
 
     return (
@@ -58,7 +58,7 @@ class App extends Component {
         
         <AddTodo createTodo={this.createTodo} />
         <ul>
-          {TodoComponents}
+         {TodoComponents}
         </ul>
       </div>
     );
