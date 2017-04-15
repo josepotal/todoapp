@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
+
+import * as TodoActions from '../../actions/TodoActions'
 import './AddTodo.css';
 
 class AddTodo extends Component {
   constructor(props) {
       super(props);
-      //this.createTodo = this.createTodo.bind(this);
+
+      this.createTodo = this.createTodo.bind(this);
+  }
+  
+  createTodo(event) {
+    event.preventDefault()
+    var todo = {
+      id: Date.now(),
+      name : this.refs.name.value
     }
-  // createTodo(event) {
-  //   event.preventDefault()
-  //   var todo = {
-  //     id: Date.now(),
-  //     name: this.refs.name.value,
-  //     complete: false,
-  //   }
-  //   this.props.addTodo(todo)
-  //   this.refs.taskForm.reset()
-  // }
+    TodoActions.createTodo(todo.name)
+    this.refs.todoForm.reset();
+  }
+
   render() {
     return (
-      <form className="task-create" ref="taskForm" onSubmit={this.createTodo}>
+      <form className="task-create" ref="todoForm" onSubmit={this.createTodo}>
         <input type="text" ref="name" placeholder="Task Name"/>
         {/*<input type="text" ref="category" placeholder="Task Category" />
         <select ref="status">

@@ -2,42 +2,47 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import './App.css';
 
-//import AddTodo from '../AddTodo/AddTodo'
-import * as TodoActions from '../../actions/TodoActions'
+//Firebase
+import firebase from 'firebase';
+
+
+import AddTodo from '../AddTodo/AddTodo'
+//import * as TodoActions from '../../actions/TodoActions'
 import Todo from '../Todo/Todo'
 import TodoStore from '../../stores/TodoStore'
 
 class App extends Component {
   constructor(props) {
     super(props)
+    this.getTodos = this.getTodos.bind(this)
     this.state = {
+      user: null,
       todos: TodoStore.getAll() //{}
     }
-
-    this.createTodo = this.createTodo.bind(this);   
   }
+
+  // handleAuth() {
+  //   const provider = new firebase.auth.GoogleAuthProvider()
+  //   firebase.auth().signInWithPopup(provider)
+  //     .then(result => console.log(`${result.user.email} started session`))
+  //     .catch(error => console.log(`Error: ${error.code}: ${error.message}`))
+  // }
 
   /*first time to DOM it renders the component
   At any change in store the state will update*/
   componentWillMount() {
-    TodoStore.on("change", () => {
-      this.setState({
-        todos: TodoStore.getAll()
-      })
+    TodoStore.on("change", this.getTodos)
+  }
+  /*Avoid memory leaks when changing routes, unbind listener*/
+  componentWillUnmount() {
+    TodoStore.removeListener("change", this.getTodos)
+  }
+
+  getTodos(){
+    this.setState({
+      todos: TodoStore.getAll()
     })
   }
-
-  createTodo(event) {
-    event.preventDefault()
-    var todo = {
-      id: Date.now(),
-      name : this.refs.name.value
-    }
-    console.log(todo.name)
-    TodoActions.createTodo(todo.name)
-    this.refs.todoForm.reset();
-  }
-
   render() {
     const { todos } = this.state;
     const TodoComponents = todos.map((todo) => {
@@ -48,12 +53,10 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <h2>Welcome to React</h2>
+          {/*<button onClick={this.handleAuth}>Log in with Google</button>*/}
         </div>
-        <form className="task-create" ref="todoForm" onSubmit={this.createTodo}>
-        <input type="text" ref="name" placeholder="Task Name"/>
-        <button type="submit">+ Add Task </button>
-      </form>
-        {/*<AddTodo createTodo={this.createTodo} />*/}
+        
+        <AddTodo createTodo={this.createTodo} />
         <ul>
           {TodoComponents}
         </ul>

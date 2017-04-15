@@ -30,3 +30,8 @@ constructor(props) {
     // })
   }
 ```
+
+
+## Firebase
+- Go to firebase.com --> create new project -> copy config
+- `npm install firebase`
